@@ -1,0 +1,182 @@
+<section class="space-y-8">
+  <div
+    class="overflow-hidden rounded-3xl border border-white/70 bg-white/80 p-6 shadow-xl shadow-slate-200/70 backdrop-blur-xl"
+  >
+    <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+      <div>
+        <span
+          class="inline-flex rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700"
+        >
+          Equipe clínica
+        </span>
+
+        <h1 class="mt-4 text-3xl font-medium tracking-tight text-slate-950 sm:text-4xl">
+          Profissionais
+        </h1>
+
+        <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
+          Gerencie médicos, especialistas e profissionais responsáveis pelos atendimentos.
+        </p>
+      </div>
+
+      <a
+        routerLink="/profissionais/novo"
+        class="group inline-flex items-center justify-center rounded-2xl bg-blue-600 px-5 py-3 text-sm font-medium text-white shadow-lg shadow-blue-600/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-blue-600/40 active:translate-y-0"
+      >
+        Novo profissional
+        <span class="ml-2 transition-transform duration-300 group-hover:translate-x-1">+</span>
+      </a>
+    </div>
+
+    <div class="mt-6 grid gap-4 sm:grid-cols-3">
+      <div class="rounded-2xl border border-slate-100 bg-slate-50/80 p-4">
+        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Total</p>
+        <p class="mt-2 text-2xl font-medium text-slate-950">{{ profissionais.length }}</p>
+      </div>
+
+      <div class="rounded-2xl border border-indigo-100 bg-indigo-50/80 p-4">
+        <p class="text-xs font-semibold uppercase tracking-wide text-indigo-600">Especialistas</p>
+        <p class="mt-2 text-2xl font-medium text-indigo-700">{{ profissionais.length }}</p>
+      </div>
+
+      <div class="rounded-2xl border border-emerald-100 bg-emerald-50/80 p-4">
+        <p class="text-xs font-semibold uppercase tracking-wide text-emerald-600">Status</p>
+        <p class="mt-2 text-2xl font-medium text-emerald-700">Ativo</p>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="overflow-hidden rounded-3xl border border-white/70 bg-white/90 shadow-xl shadow-slate-200/70 backdrop-blur-xl"
+  >
+    <div
+      class="flex flex-col gap-3 border-b border-slate-100 px-6 py-5 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <div>
+        <h2 class="text-lg font-medium text-slate-950">Lista de profissionais</h2>
+        <p class="text-sm text-slate-500">Dados retornados pela API da clínica.</p>
+      </div>
+
+      <button
+        type="button"
+        (click)="carregarProfissionais()"
+        class="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-md cursor-pointer"
+      >
+        Atualizar
+      </button>
+    </div>
+
+    <div *ngIf="carregando" class="space-y-4 p-6">
+      <div class="h-5 w-56 animate-pulse rounded bg-slate-200"></div>
+      <div class="space-y-3">
+        <div class="h-14 animate-pulse rounded-2xl bg-slate-100"></div>
+        <div class="h-14 animate-pulse rounded-2xl bg-slate-100"></div>
+        <div class="h-14 animate-pulse rounded-2xl bg-slate-100"></div>
+      </div>
+    </div>
+
+    <div *ngIf="erro" class="p-6">
+      <div class="rounded-2xl border border-red-100 bg-red-50 p-4 text-sm font-medium text-red-700">
+        {{ erro }}
+      </div>
+    </div>
+
+    <div *ngIf="!carregando && !erro">
+      <div class="hidden overflow-x-auto md:block">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr
+              class="border-b border-slate-100 bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500"
+            >
+              <th class="px-6 py-4 font-medium">ID</th>
+              <th class="px-6 py-4 font-medium">Nome</th>
+              <th class="px-6 py-4 font-medium">Especialidade</th>
+            </tr>
+          </thead>
+
+          <tbody @listAnimation>
+            <tr
+              *ngFor="let profissional of profissionais"
+              class="group border-b border-slate-100 text-sm text-slate-700 transition-all duration-300 hover:bg-indigo-50/60"
+            >
+              <td class="px-6 py-5">
+                <span
+                  class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600"
+                >
+                  #{{ profissional.id }}
+                </span>
+              </td>
+
+              <td class="px-6 py-5">
+                <div class="flex items-center gap-3">
+                  <span class="font-medium text-slate-950">
+                    {{ profissional.nome }}
+                  </span>
+                </div>
+              </td>
+
+              <td class="px-6 py-5">
+                <span
+                  class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 ring-1 ring-indigo-100"
+                >
+                  {{ profissional.especialidade }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div @listAnimation class="grid gap-4 p-4 md:hidden">
+        <article
+          *ngFor="let profissional of profissionais"
+          class="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+        >
+          <div class="flex items-start gap-3">
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between gap-3">
+                <h3 class="truncate font-medium text-slate-950">
+                  {{ profissional.nome }}
+                </h3>
+
+                <span
+                  class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600"
+                >
+                  #{{ profissional.id }}
+                </span>
+              </div>
+
+              <p
+                class="mt-3 inline-flex rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 ring-1 ring-indigo-100"
+              >
+                {{ profissional.especialidade }}
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div
+        *ngIf="profissionais.length === 0"
+        class="flex flex-col items-center justify-center px-6 py-16 text-center"
+      >
+        <div class="rounded-full bg-slate-100 p-5">
+          <div class="h-10 w-10 rounded-full bg-slate-200"></div>
+        </div>
+
+        <h3 class="mt-4 text-lg font-medium text-slate-950">Nenhum profissional cadastrado</h3>
+
+        <p class="mt-1 text-sm text-slate-500">
+          Cadastre o primeiro profissional para iniciar os agendamentos.
+        </p>
+
+        <a
+          routerLink="/profissionais/novo"
+          class="mt-5 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-medium text-white shadow-lg shadow-blue-600/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700"
+        >
+          Novo profissional
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
