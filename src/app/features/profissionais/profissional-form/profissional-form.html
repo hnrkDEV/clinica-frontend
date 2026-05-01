@@ -1,0 +1,57 @@
+<div>
+  <div class="mb-6">
+    <a routerLink="/profissionais" class="text-sm font-medium text-blue-600 hover:text-blue-700">
+      ← Voltar
+    </a>
+
+    <h1 class="mt-4 text-2xl font-medium text-slate-900">Novo profissional</h1>
+    <p class="text-sm text-slate-500">Cadastre um novo profissional da clínica.</p>
+  </div>
+
+  <div class="max-w-3xl rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+    <form (ngSubmit)="salvar()" class="space-y-5">
+      <div>
+        <label class="mb-1 block text-sm font-medium text-slate-700"> Nome </label>
+        <input
+          type="text"
+          name="nome"
+          [(ngModel)]="profissional.nome"
+          class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          placeholder="Ex: Dra. Ana Paula"
+        />
+      </div>
+
+      <div>
+        <label class="mb-1 block text-sm font-medium text-slate-700"> Especialidade </label>
+        <input
+          type="text"
+          name="especialidade"
+          [(ngModel)]="profissional.especialidade"
+          class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          placeholder="Ex: Cardiologia"
+        />
+      </div>
+
+      <div *ngIf="erro" class="rounded-lg bg-red-50 p-3 text-sm text-red-700">
+        {{ erro }}
+      </div>
+
+      <div class="flex justify-end gap-3">
+        <a
+          routerLink="/profissionais"
+          class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100"
+        >
+          Cancelar
+        </a>
+
+        <button
+          type="submit"
+          [disabled]="salvando"
+          class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
+        >
+          {{ salvando ? 'Salvando...' : 'Salvar profissional' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
