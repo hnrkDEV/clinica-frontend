@@ -1,0 +1,82 @@
+<div class="min-h-screen from-slate-50 via-white to-blue-50/30">
+  <div
+    *ngIf="sidebarAberta"
+    (click)="fecharSidebar()"
+    class="fixed inset-0 z-30 bg-slate-900/50 backdrop-blur-sm lg:hidden"
+  ></div>
+
+  <aside
+    class="fixed left-0 top-0 z-40 h-screen w-72 transform border-r border-slate-200 bg-white shadow-xl transition-transform duration-300 ease-in-out lg:translate-x-0"
+    [ngClass]="sidebarAberta ? 'translate-x-0' : '-translate-x-full'"
+  >
+    <div class="flex h-20 items-center justify-center border-b border-slate-100 px-6">
+      <img src="mv-logo.png" alt="logo-mv" class="w-20 object-contain" />
+    </div>
+
+    <nav class="space-y-2 p-4">
+      <a
+        routerLink="/pacientes"
+        routerLinkActive="bg-blue-600 text-white shadow-md shadow-blue-600/20"
+        (click)="fecharSidebar()"
+        class="group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-slate-600 transition-all duration-200 hover:translate-x-1 hover:bg-blue-50 hover:text-blue-700"
+      >
+        Pacientes
+      </a>
+
+      <a
+        routerLink="/profissionais"
+        routerLinkActive="bg-blue-600 text-white shadow-md shadow-blue-600/20"
+        (click)="fecharSidebar()"
+        class="group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-slate-600 transition-all duration-200 hover:translate-x-1 hover:bg-blue-50 hover:text-blue-700"
+      >
+        Profissionais
+      </a>
+
+      <a
+        routerLink="/agendamentos"
+        routerLinkActive="bg-blue-600 text-white shadow-md shadow-blue-600/20"
+        (click)="fecharSidebar()"
+        class="group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-slate-600 transition-all duration-200 hover:translate-x-1 hover:bg-blue-50 hover:text-blue-700"
+      >
+        Agendamentos
+      </a>
+
+      <a
+        routerLink="/auditoria"
+        routerLinkActive="bg-blue-600 text-white shadow-md shadow-blue-600/20"
+        (click)="fecharSidebar()"
+        class="group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-slate-600 transition-all duration-200 hover:translate-x-1 hover:bg-blue-50 hover:text-blue-700"
+      >
+        Auditoria
+      </a>
+    </nav>
+    <div class="absolute bottom-0 w-full border-t border-slate-100 p-4">
+      <div class="rounded-2xl bg-slate-50 p-4">
+        <p class="text-xs font-semibold text-slate-700">Sistema Clínica</p>
+        <p class="mt-1 text-xs text-slate-500">Painel administrativo</p>
+      </div>
+    </div>
+  </aside>
+
+  <div class="lg:pl-72">
+    <header
+      class="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-white/90 px-4 shadow-sm backdrop-blur lg:hidden"
+    >
+      <button
+        type="button"
+        (click)="toggleSidebar()"
+        class="rounded-xl border border-slate-200 bg-white p-2 text-slate-700 shadow-sm transition hover:bg-slate-100 cursor-pointer"
+      >
+        <span class="block h-0.5 w-6 bg-slate-700"></span>
+        <span class="mt-1.5 block h-0.5 w-6 bg-slate-700"></span>
+        <span class="mt-1.5 block h-0.5 w-6 bg-slate-700"></span>
+      </button>
+
+      <img src="mv-logo.png" alt="logo-mv" class="w-15 object-contain" />
+    </header>
+
+    <main class="min-h-screen overflow-auto p-4 sm:p-6 lg:p-8">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
