@@ -1,0 +1,92 @@
+<div>
+  <div class="mb-6">
+    <a routerLink="/agendamentos" class="text-sm font-medium text-blue-600 hover:text-blue-700">
+      ← Voltar
+    </a>
+
+    <h1 class="mt-4 text-2xl font-medium text-slate-900">Novo agendamento</h1>
+    <p class="text-sm text-slate-500">Cadastre uma consulta, retorno ou exame.</p>
+  </div>
+
+  <div class="max-w-3xl rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+    <div *ngIf="carregandoDados" class="text-sm text-slate-500">Carregando dados...</div>
+
+    <form *ngIf="!carregandoDados" (ngSubmit)="salvar()" class="space-y-5">
+      <div>
+        <label class="mb-1 block text-sm font-medium text-slate-700"> Paciente </label>
+
+        <select
+          name="pacienteId"
+          [(ngModel)]="agendamento.pacienteId"
+          class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        >
+          <option [ngValue]="0">Selecione um paciente</option>
+          <option *ngFor="let paciente of pacientes" [ngValue]="paciente.id">
+            {{ paciente.nome }}
+          </option>
+        </select>
+      </div>
+
+      <div>
+        <label class="mb-1 block text-sm font-medium text-slate-700"> Profissional </label>
+
+        <select
+          name="profissionalId"
+          [(ngModel)]="agendamento.profissionalId"
+          class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        >
+          <option [ngValue]="0">Selecione um profissional</option>
+          <option *ngFor="let profissional of profissionais" [ngValue]="profissional.id">
+            {{ profissional.nome }} - {{ profissional.especialidade }}
+          </option>
+        </select>
+      </div>
+
+      <div>
+        <label class="mb-1 block text-sm font-medium text-slate-700"> Data e hora </label>
+
+        <input
+          type="datetime-local"
+          name="dataHora"
+          [(ngModel)]="agendamento.dataHora"
+          class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        />
+      </div>
+
+      <div>
+        <label class="mb-1 block text-sm font-medium text-slate-700"> Tipo de atendimento </label>
+
+        <select
+          name="tipoAtendimento"
+          [(ngModel)]="agendamento.tipoAtendimento"
+          class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        >
+          <option *ngFor="let tipo of tipos" [ngValue]="tipo">
+            {{ tipo }}
+          </option>
+        </select>
+      </div>
+
+      <div *ngIf="erro" class="rounded-lg bg-red-50 p-3 text-sm text-red-700">
+        {{ erro }}
+      </div>
+
+      <div class="flex justify-end gap-3">
+        <a
+          routerLink="/agendamentos"
+          class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100"
+        >
+          Cancelar
+        </a>
+
+        <button
+          type="submit"
+          [disabled]="salvando"
+          class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
+        >
+          {{ salvando ? 'Salvando...' : 'Salvar agendamento' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
