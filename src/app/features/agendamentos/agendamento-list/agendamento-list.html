@@ -1,0 +1,290 @@
+<section class="space-y-8">
+  <div
+    class="overflow-hidden rounded-3xl border border-white/70 bg-white/80 p-6 shadow-xl shadow-slate-200/70 backdrop-blur-xl"
+  >
+    <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+      <div>
+        <span
+          class="inline-flex rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700"
+        >
+          Agenda clínica
+        </span>
+
+        <h1 class="mt-4 text-3xl font-medium tracking-tight text-slate-950 sm:text-4xl">
+          Agendamentos
+        </h1>
+
+        <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
+          Acompanhe consultas, retornos e exames agendados na clínica.
+        </p>
+      </div>
+
+      <a
+        routerLink="/agendamentos/novo"
+        class="group inline-flex items-center justify-center rounded-2xl bg-blue-600 px-5 py-3 text-sm font-medium text-white shadow-lg shadow-blue-600/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-blue-600/40 active:translate-y-0"
+      >
+        Novo agendamento
+        <span class="ml-2 transition-transform duration-300 group-hover:translate-x-1">+</span>
+      </a>
+    </div>
+
+    <div class="mt-6 grid gap-4 sm:grid-cols-3">
+      <div class="rounded-2xl border border-slate-100 bg-slate-50/80 p-4">
+        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Total</p>
+        <p class="mt-2 text-2xl font-medium text-slate-950">{{ agendamentos.length }}</p>
+      </div>
+
+      <div class="rounded-2xl border border-emerald-100 bg-emerald-50/80 p-4">
+        <p class="text-xs font-semibold uppercase tracking-wide text-emerald-600">Agendados</p>
+        <p class="mt-2 text-2xl font-medium text-emerald-700">{{ totalAgendados() }}</p>
+      </div>
+
+      <div class="rounded-2xl border border-red-100 bg-red-50/80 p-4">
+        <p class="text-xs font-semibold uppercase tracking-wide text-red-600">Cancelados</p>
+        <p class="mt-2 text-2xl font-medium text-red-700">{{ totalCancelados() }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="rounded-3xl border border-white/70 bg-white/80 p-4 shadow-xl shadow-slate-200/70 backdrop-blur-xl"
+  >
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h2 class="text-lg font-medium text-slate-950">Filtros</h2>
+        <p class="text-sm text-slate-500">Refine a lista por status do agendamento.</p>
+      </div>
+
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <select
+          [(ngModel)]="statusFiltro"
+          class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 cursor-pointer"
+        >
+          <option value="">Todos</option>
+          <option value="AGENDADO" class="cursor-pointer">Agendados</option>
+          <option value="CANCELADO" class="cursor-pointer">Cancelados</option>
+        </select>
+
+        <button
+          type="button"
+          (click)="carregarAgendamentos()"
+          class="cursor-pointer rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-medium text-slate-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-md"
+        >
+          Filtrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="overflow-hidden rounded-3xl border border-white/70 bg-white/90 shadow-xl shadow-slate-200/70 backdrop-blur-xl"
+  >
+    <div
+      class="flex flex-col gap-3 border-b border-slate-100 px-6 py-5 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <div>
+        <h2 class="text-lg font-medium text-slate-950">Lista de agendamentos</h2>
+        <p class="text-sm text-slate-500">Dados retornados pela API da clínica.</p>
+      </div>
+
+      <button
+        type="button"
+        (click)="carregarAgendamentos()"
+        class="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-md cursor-pointer"
+      >
+        Atualizar
+      </button>
+    </div>
+
+    <div *ngIf="carregando" class="space-y-4 p-6">
+      <div class="h-5 w-56 animate-pulse rounded bg-slate-200"></div>
+      <div class="space-y-3">
+        <div class="h-14 animate-pulse rounded-2xl bg-slate-100"></div>
+        <div class="h-14 animate-pulse rounded-2xl bg-slate-100"></div>
+        <div class="h-14 animate-pulse rounded-2xl bg-slate-100"></div>
+      </div>
+    </div>
+
+    <div *ngIf="erro" class="p-6">
+      <div class="rounded-2xl border border-red-100 bg-red-50 p-4 text-sm font-medium text-red-700">
+        {{ erro }}
+      </div>
+    </div>
+
+    <div *ngIf="!carregando && !erro">
+      <div class="hidden overflow-x-auto lg:block">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr
+              class="border-b border-slate-100 bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500"
+            >
+              <th class="px-6 py-4 font-medium">Paciente</th>
+              <th class="px-6 py-4 font-medium">Profissional</th>
+              <th class="px-6 py-4 font-medium">Data/Hora</th>
+              <th class="px-6 py-4 font-medium">Tipo</th>
+              <th class="px-6 py-4 font-medium">Status</th>
+              <th class="px-6 py-4 font-medium">Ações</th>
+            </tr>
+          </thead>
+
+          <tbody @listAnimation>
+            <tr
+              *ngFor="let agendamento of agendamentos"
+              class="group border-b border-slate-100 text-sm text-slate-700 transition-all duration-300 hover:bg-blue-50/60"
+            >
+              <td class="px-6 py-5">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="flex h-10 w-10 items-center justify-center rounded-2xl bg-linear-to-br from-blue-500 to-indigo-600 text-sm font-medium text-white shadow-md shadow-blue-500/20 transition-transform duration-300 group-hover:scale-105"
+                  >
+                    {{ agendamento.paciente.charAt(0).toUpperCase() }}
+                  </div>
+
+                  <span class="font-medium text-slate-950">
+                    {{ agendamento.paciente }}
+                  </span>
+                </div>
+              </td>
+
+              <td class="px-6 py-5 text-slate-600">
+                {{ agendamento.profissional }}
+              </td>
+
+              <td class="px-6 py-5">
+                <span
+                  class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700"
+                >
+                  {{ formatarData(agendamento.dataHora) }}
+                </span>
+              </td>
+
+              <td class="px-6 py-5">
+                <span
+                  class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 ring-1 ring-indigo-100"
+                >
+                  {{ agendamento.tipoAtendimento }}
+                </span>
+              </td>
+
+              <td class="px-6 py-5">
+                <span
+                  class="rounded-full px-3 py-1 text-xs font-medium ring-1"
+                  [ngClass]="{
+                    'bg-emerald-50 text-emerald-700 ring-emerald-100':
+                      agendamento.status === 'AGENDADO',
+                    'bg-red-50 text-red-700 ring-red-100': agendamento.status === 'CANCELADO'
+                  }"
+                >
+                  {{ agendamento.status }}
+                </span>
+              </td>
+
+              <td class="px-6 py-5">
+                <button
+                  *ngIf="agendamento.status === 'AGENDADO'"
+                  type="button"
+                  (click)="cancelarAgendamento(agendamento.id)"
+                  class="cursor-pointer rounded-xl bg-red-600 px-4 py-2 text-xs font-medium text-white shadow-lg shadow-red-600/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-red-700 hover:shadow-red-600/30 active:translate-y-0"
+                >
+                  Cancelar
+                </button>
+
+                <span
+                  *ngIf="agendamento.status === 'CANCELADO'"
+                  class="text-xs font-semibold text-slate-400"
+                >
+                  Sem ações
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div @listAnimation class="grid gap-4 p-4 lg:hidden">
+        <article
+          *ngFor="let agendamento of agendamentos"
+          class="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+        >
+          <div class="flex items-start gap-3">
+            <div
+              class="flex h-11 w-11 items-center justify-center rounded-2xl bg-linear-to-br from-blue-500 to-indigo-600 text-sm font-medium text-white"
+            >
+              {{ agendamento.paciente.charAt(0).toUpperCase() }}
+            </div>
+
+            <div class="min-w-0 flex-1">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <h3 class="truncate font-medium text-slate-950">
+                    {{ agendamento.paciente }}
+                  </h3>
+
+                  <p class="mt-1 text-sm text-slate-500">
+                    {{ agendamento.profissional }}
+                  </p>
+                </div>
+
+                <span
+                  class="rounded-full px-2.5 py-1 text-xs font-medium ring-1"
+                  [ngClass]="{
+                    'bg-emerald-50 text-emerald-700 ring-emerald-100':
+                      agendamento.status === 'AGENDADO',
+                    'bg-red-50 text-red-700 ring-red-100': agendamento.status === 'CANCELADO'
+                  }"
+                >
+                  {{ agendamento.status }}
+                </span>
+              </div>
+
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700"
+                >
+                  {{ formatarData(agendamento.dataHora) }}
+                </span>
+
+                <span
+                  class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 ring-1 ring-indigo-100"
+                >
+                  {{ agendamento.tipoAtendimento }}
+                </span>
+              </div>
+
+              <button
+                *ngIf="agendamento.status === 'AGENDADO'"
+                type="button"
+                (click)="cancelarAgendamento(agendamento.id)"
+                class="mt-4 w-full cursor-pointer rounded-xl bg-red-600 px-4 py-2.5 text-xs font-medium text-white shadow-lg shadow-red-600/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-red-700"
+              >
+                Cancelar agendamento
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div
+        *ngIf="agendamentos.length === 0"
+        class="flex flex-col items-center justify-center px-6 py-16 text-center"
+      >
+        <div class="rounded-full bg-slate-100 p-5">
+          <div class="h-10 w-10 rounded-full bg-slate-200"></div>
+        </div>
+
+        <h3 class="mt-4 text-lg font-medium text-slate-950">Nenhum agendamento encontrado</h3>
+
+        <p class="mt-1 text-sm text-slate-500">
+          Crie um novo agendamento ou altere os filtros para visualizar outros registros.
+        </p>
+
+        <a
+          routerLink="/agendamentos/novo"
+          class="mt-5 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-medium text-white shadow-lg shadow-blue-600/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700"
+        >
+          Novo agendamento
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
