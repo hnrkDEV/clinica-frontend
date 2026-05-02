@@ -34,6 +34,11 @@ export class AgendamentoList implements OnInit {
   erro = '';
   statusFiltro = '';
 
+  modalCancelamentoAberto = false;
+  agendamentoSelecionadoId: number | null = null;
+  motivoCancelamento = '';
+  cancelando = false;
+
   constructor(private agendamentoService: AgendamentoService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
@@ -59,22 +64,39 @@ export class AgendamentoList implements OnInit {
     });
   }
 
-  cancelarAgendamento(id: number): void {
-    const motivo = prompt('Informe o motivo do cancelamento:');
+  abrirModalCancelamento(id: number): void {
+    this.agendamentoSelecionadoId = id;
+    this.motivoCancelamento = '';
+    this.modalCancelamentoAberto = true;
+  }
 
-    if (!motivo) {
+  fecharModalCancelamento(): void {
+    this.modalCancelamentoAberto = false;
+    this.agendamentoSelecionadoId = null;
+    this.motivoCancelamento = '';
+    this.cancelando = false;
+  }
+
+  confirmarCancelamento(): void {
+    if (!this.agendamentoSelecionadoId || !this.motivoCancelamento.trim()) {
       return;
     }
 
-    this.agendamentoService.cancelar(id, motivo).subscribe({
-      next: () => {
-        this.carregarAgendamentos();
-      },
-      error: (erro) => {
-        console.error('Erro ao cancelar agendamento:', erro);
-        alert('Erro ao cancelar agendamento.');
-      },
-    });
+    this.cancelando = true;
+
+    this.agendamentoService
+      .cancelar(this.agendamentoSelecionadoId, this.motivoCancelamento)
+      .subscribe({
+        next: () => {
+          this.fecharModalCancelamento();
+          this.carregarAgendamentos();
+        },
+        error: (erro) => {
+          console.error('Erro ao cancelar agendamento:', erro);
+          this.cancelando = false;
+          this.cdr.detectChanges();
+        },
+      });
   }
 
   formatarData(dataHora: string): string {
