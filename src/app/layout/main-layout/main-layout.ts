@@ -10,11 +10,12 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
+import { ToastComponent } from '../../shared/components/toast/toast';
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, ToastComponent],
   templateUrl: './main-layout.html',
 })
 export class MainLayout {

@@ -4,6 +4,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AgendamentoService } from '../../../core/services/agendamento';
+import { ToastService } from '../../../core/services/toast';
 import { Agendamento } from '../../../shared/models/agendamento';
 
 @Component({
@@ -39,7 +40,11 @@ export class AgendamentoList implements OnInit {
   motivoCancelamento = '';
   cancelando = false;
 
-  constructor(private agendamentoService: AgendamentoService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private agendamentoService: AgendamentoService,
+    private cdr: ChangeDetectorRef,
+    private toast: ToastService
+  ) {}
 
   ngOnInit(): void {
     this.carregarAgendamentos();
@@ -90,9 +95,11 @@ export class AgendamentoList implements OnInit {
         next: () => {
           this.fecharModalCancelamento();
           this.carregarAgendamentos();
+          this.toast.show('Agendamento cancelado com sucesso.', 'success', 3000);
         },
         error: (erro) => {
           console.error('Erro ao cancelar agendamento:', erro);
+          this.toast.show('Erro ao cancelar agendamento.', 'error', 3000);
           this.cancelando = false;
           this.cdr.detectChanges();
         },

@@ -7,6 +7,7 @@ import { AgendamentoService } from '../../../core/services/agendamento';
 import { PacienteService } from '../../../core/services/paciente';
 import { ProfissionalService } from '../../../core/services/profissional';
 
+import { ToastService } from '../../../core/services/toast';
 import { AgendamentoRequest, TipoAtendimento } from '../../../shared/models/agendamento';
 import { Paciente } from '../../../shared/models/paciente';
 import { Profissional } from '../../../shared/models/profissional';
@@ -39,7 +40,8 @@ export class AgendamentoForm implements OnInit {
     private pacienteService: PacienteService,
     private profissionalService: ProfissionalService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private toast: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -103,10 +105,12 @@ export class AgendamentoForm implements OnInit {
       next: () => {
         this.salvando = false;
         this.router.navigate(['/agendamentos']);
+        this.toast.show('Agendamento cadastrado com sucesso.', 'success', 3000);
       },
       error: (erro) => {
         console.error('Erro ao cadastrar agendamento:', erro);
         this.erro = 'Erro ao cadastrar agendamento.';
+        this.toast.show('Erro ao cadastrar agendamento.', 'error', 3000);
         this.salvando = false;
         this.cdr.detectChanges();
       },

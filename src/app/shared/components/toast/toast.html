@@ -1,0 +1,41 @@
+<div class="fixed top-6 right-6 z-50 space-y-4">
+  <div
+    *ngFor="let toast of toasts"
+    class="group relative flex w-80 items-start gap-4 overflow-hidden rounded-xl border border-white/60 bg-white/80 p-4 shadow-xl shadow-slate-900/10 backdrop-blur-xl transition-all duration-300 animate-[toastIn_0.3s_ease] drop-shadow-2xl"
+  >
+    <div
+      class="absolute left-0 top-0 h-full w-1"
+      [ngClass]="{
+        'bg-emerald-500': toast.type === 'success',
+        'bg-red-500': toast.type === 'error',
+        'bg-blue-500': toast.type === 'info'
+      }"
+    ></div>
+
+    <div
+      class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white shadow-md"
+      [ngClass]="{
+        'bg-emerald-500': toast.type === 'success',
+        'bg-red-500': toast.type === 'error',
+        'bg-blue-500': toast.type === 'info'
+      }"
+    >
+      <span *ngIf="toast.type === 'success'">✓</span>
+      <span *ngIf="toast.type === 'error'">!</span>
+      <span *ngIf="toast.type === 'info'">i</span>
+    </div>
+
+    <div class="flex-1">
+      <p class="text-sm font-semibold text-slate-900">
+        {{ toast.message }}
+      </p>
+    </div>
+
+    <button
+      (click)="remover(toast.id)"
+      class="opacity-0 transition group-hover:opacity-100 text-slate-700 hover:text-slate-700 cursor-pointer"
+    >
+      ✕
+    </button>
+  </div>
+</div>

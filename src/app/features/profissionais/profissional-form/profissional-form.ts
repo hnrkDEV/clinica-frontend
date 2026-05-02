@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ProfissionalService } from '../../../core/services/profissional';
+import { ToastService } from '../../../core/services/toast';
 import { Profissional } from '../../../shared/models/profissional';
 
 @Component({
@@ -23,7 +24,8 @@ export class ProfissionalForm {
   constructor(
     private profissionalService: ProfissionalService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private toast: ToastService
   ) {}
 
   salvar(): void {
@@ -40,10 +42,12 @@ export class ProfissionalForm {
       next: () => {
         this.salvando = false;
         this.router.navigate(['/profissionais']);
+        this.toast.show('Profissional cadastrado com sucesso.', 'success', 3000);
       },
       error: (erro) => {
         console.error('Erro ao cadastrar profissional:', erro);
         this.erro = 'Erro ao cadastrar profissional.';
+        this.toast.show('Erro ao cadastrar profissional.', 'error', 3000);
         this.salvando = false;
         this.cdr.detectChanges();
       },
