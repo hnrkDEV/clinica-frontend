@@ -1,6 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import {
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
 
 @Component({
   selector: 'app-main-layout',
@@ -10,6 +19,27 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 })
 export class MainLayout {
   sidebarAberta = false;
+  mostrarPagina = true;
+
+  constructor(private router: Router, private cdr: ChangeDetectorRef) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.mostrarPagina = false;
+        this.cdr.detectChanges();
+      }
+
+      if (
+        event instanceof NavigationEnd ||
+        event instanceof NavigationCancel ||
+        event instanceof NavigationError
+      ) {
+        setTimeout(() => {
+          this.mostrarPagina = true;
+          this.cdr.detectChanges();
+        }, 180);
+      }
+    });
+  }
 
   toggleSidebar(): void {
     this.sidebarAberta = !this.sidebarAberta;
