@@ -5,7 +5,7 @@
     <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
       <div>
         <span
-          class="inline-flex rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700"
+          class="inline-flex rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-700"
         >
           Equipe clínica
         </span>
@@ -30,17 +30,17 @@
 
     <div class="mt-6 grid gap-4 sm:grid-cols-3">
       <div class="rounded-2xl border border-slate-100 bg-slate-50/80 p-4">
-        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Total</p>
+        <p class="text-xs font-medium uppercase tracking-wide text-slate-500">Total</p>
         <p class="mt-2 text-2xl font-medium text-slate-950">{{ profissionais.length }}</p>
       </div>
 
       <div class="rounded-2xl border border-indigo-100 bg-indigo-50/80 p-4">
-        <p class="text-xs font-semibold uppercase tracking-wide text-indigo-600">Especialistas</p>
+        <p class="text-xs font-medium uppercase tracking-wide text-indigo-600">Especialistas</p>
         <p class="mt-2 text-2xl font-medium text-indigo-700">{{ profissionais.length }}</p>
       </div>
 
       <div class="rounded-2xl border border-emerald-100 bg-emerald-50/80 p-4">
-        <p class="text-xs font-semibold uppercase tracking-wide text-emerald-600">Status</p>
+        <p class="text-xs font-medium uppercase tracking-wide text-emerald-600">Status</p>
         <p class="mt-2 text-2xl font-medium text-emerald-700">Ativo</p>
       </div>
     </div>
@@ -60,7 +60,7 @@
       <button
         type="button"
         (click)="carregarProfissionais()"
-        class="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-md cursor-pointer"
+        class="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-md cursor-pointer"
       >
         Atualizar
       </button>
@@ -117,7 +117,7 @@
 
               <td class="px-6 py-5">
                 <span
-                  class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 ring-1 ring-indigo-100"
+                  class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700 ring-1 ring-indigo-100"
                 >
                   {{ profissional.especialidade }}
                 </span>
@@ -147,7 +147,7 @@
               </div>
 
               <p
-                class="mt-3 inline-flex rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 ring-1 ring-indigo-100"
+                class="mt-3 inline-flex rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700 ring-1 ring-indigo-100"
               >
                 {{ profissional.especialidade }}
               </p>

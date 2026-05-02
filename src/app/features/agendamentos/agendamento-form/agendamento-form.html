@@ -74,7 +74,7 @@
       <div class="flex justify-end gap-3">
         <a
           routerLink="/agendamentos"
-          class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100"
+          class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
         >
           Cancelar
         </a>
@@ -82,7 +82,7 @@
         <button
           type="submit"
           [disabled]="salvando"
-          class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
+          class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
         >
           {{ salvando ? 'Salvando...' : 'Salvar agendamento' }}
         </button>
