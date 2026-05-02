@@ -1,59 +1,65 @@
-# ClinicaFrontend
+# Clínica Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
+Frontend de um sistema de gestão de clínica desenvolvido com **Angular** e **TailwindCSS**, consumindo uma API REST construída em **Spring Boot**.
 
-## Development server
+A aplicação permite o gerenciamento completo de pacientes, profissionais e agendamentos, além de exibir um histórico de auditoria das ações realizadas no sistema.
 
-To start a local development server, run:
+---
+
+## Funcionalidades
+
+- Cadastro e listagem de **pacientes**
+- Cadastro e listagem de **profissionais**
+- Criação e gerenciamento de **agendamentos**
+- Cancelamento de agendamentos
+- Visualização de **auditoria** (histórico de ações)
+- Filtros por status
+- Interface responsiva e moderna
+
+---
+
+## Tecnologias
+
+- Angular (Standalone Components)
+- TypeScript
+- TailwindCSS
+- Angular Animations
+- RxJS
+
+---
+
+## UI/UX
+
+- Layout estilo dashboard administrativo
+- Sidebar responsiva com menu hambúrguer
+- Componentes reutilizáveis
+- Animações suaves e microinterações
+- Design inspirado em sistemas SaaS modernos
+
+---
+
+## Integração
+
+O frontend consome uma API REST com os seguintes módulos:
+
+- `/pacientes`
+- `/profissionais`
+- `/agendamentos`
+- `/auditorias`
+
+A URL da API é configurada via `environment.ts`.
+
+---
+
+## ⚙️ Como executar
 
 ```bash
+npm install
 ng serve
 ```
+A aplicação estará disponível em: `` http://localhost:4200 ``
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Observações
+- Projeto estruturado com foco em escalabilidade e organização por features
+- Utilização de variáveis de ambiente para integração com backend
+- Arquitetura preparada para evolução (autenticação, dashboard, etc.)
