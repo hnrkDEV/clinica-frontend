@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { AgendamentoForm } from './features/agendamentos/agendamento-form/agendamento-form';
 import { AgendamentoList } from './features/agendamentos/agendamento-list/agendamento-list';
 import { AuditoriaList } from './features/auditoria/auditoria-list/auditoria-list';
+import { Dashboard } from './features/dashboard/dashboard/dashboard';
 import { PacienteForm } from './features/pacientes/paciente-form/paciente-form';
 import { PacienteList } from './features/pacientes/paciente-list/paciente-list';
 import { ProfissionalForm } from './features/profissionais/profissional-form/profissional-form';
@@ -15,8 +16,12 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'pacientes',
+        redirectTo: 'dashboard',
         pathMatch: 'full',
+      },
+      {
+        path: 'dashboard',
+        component: Dashboard,
       },
       {
         path: 'pacientes',
